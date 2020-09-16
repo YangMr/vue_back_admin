@@ -57,7 +57,7 @@ function getValue(str){
     const val = str.substring(index+1,str.length);
     //判断str == index
     if(val == "index"){
-        return str.substring(index+1,-1);
+        return str.substring(index,-1);
     }
     return str;
 }
