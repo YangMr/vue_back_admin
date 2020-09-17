@@ -30,6 +30,7 @@ const loading = {
 //创建axios实例
 const request = axios.create({
     baseURL: process.env.VUE_APP_API_NAME,
+    withCredentials: true ,
     timeout: 3000
 })
 
@@ -40,7 +41,6 @@ request.interceptors.request.use(function (config) {
       
       //获取vuex里面保存的token通过header发送给后台
       const token = getToken() ? getToken() : ""
-
       config.headers.token = token;
 
     // 在发送请求之前做些什么
