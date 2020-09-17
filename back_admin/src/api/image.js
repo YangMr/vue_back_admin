@@ -27,3 +27,23 @@ export function ImageList(id,page,limit = "",order = "",keyword=""){
     })
 }
 
+//封装删除图片分类接口
+export function removeImageAlbum(id){
+    return request({
+        url : `admin/imageclass/${id}`,
+        method : "DELETE"
+    })
+}
+
+//封装图片列表接口
+export function PicList(id,page,limit="",order="",keyword=""){
+    return request({
+        url : `admin/imageclass/${id}/image/${page}`,
+        method : "GET",
+        params : {
+            limit,
+            order,
+            keyword
+        }
+    })
+}

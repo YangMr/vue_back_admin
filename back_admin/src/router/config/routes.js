@@ -10,6 +10,9 @@ const routes = [
             },
             {
                 component : "shop/goods/list"
+            },
+            {
+                component : "image/image"
             }
         ]
     },

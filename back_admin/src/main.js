@@ -6,6 +6,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+//引入页面鉴权文件
+import "./permission"
+
 Vue.config.productionTip = false;
 
 new Vue({

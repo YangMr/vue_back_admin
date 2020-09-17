@@ -7,7 +7,7 @@
           <el-header>
             <div class="login">UNI-ADMIN</div>
             <el-menu
-              :default-active="activeIndex"
+              :default-active="navBar.active|numToString"
               class="el-menu-demo"
               mode="horizontal"
               @select="handleSelect"
@@ -16,41 +16,41 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item
-                v-for="(item,index) in navBar"
+                v-for="(item,index) in navBar.list"
                 :key="index"
-                :index="item.activeIndex"
+                :index="index | numToString"
               >{{item.name}}</el-menu-item>
-              <el-submenu index="99">
+              <!-- <el-submenu index="99">
                 <template slot="title">
-                  <el-avatar
-                    shape="circle"
-                    size="small"
-                    src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
-                  ></el-avatar>sumarry
+                  <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                  admin
                 </template>
-                <el-menu-item index="2-1">修改密码</el-menu-item>
-                <el-menu-item index="2-2">退出登录</el-menu-item>
-              </el-submenu>
+                <el-menu-item index="99-1">修改</el-menu-item>
+                <el-menu-item index="99-2">退出</el-menu-item>
+              </el-submenu> -->
             </el-menu>
           </el-header>
           <el-container>
             <!-- 侧边栏导航  -->
             <el-aside>
               <el-menu
-                :default-active="subActiveIndex"
+                :router="true"
+                :default-active="subMenuNav.activeIndex | numToString"
                 class="el-menu-vertical-demo"
                 background-color="#fff"
                 text-color="#008080"
                 active-text-color="#333"
               >
-                <el-menu-item index="1" v-for="(item,index) in subNav" :key="index">
+                <el-menu-item :index="item.path" v-for="(item,index) in subMenuNav.subNav" :key="index">
                   <i class="el-icon-menu"></i>
                   <span slot="title">{{item.name}}</span>
                 </el-menu-item>
               </el-menu>
             </el-aside>
             <!-- 主体内容 -->
-            <el-main>Main</el-main>
+            <el-main>
+              <router-view />
+            </el-main>
           </el-container>
         </el-container>
       </div>
@@ -59,140 +59,89 @@
 </template>
 
 <script>
+import filterData from "../common/mixins/index.js";
 export default {
   name: "",
   data() {
     return {
-      activeIndex: "1",
-      subActiveIndex: "1",
-      subNavBar: [],
-      navBar: [
-        {
-          activeIndex: "1",
-          name: "首页",
-          subNavBar: [
-            {
-              icon: "el-icon-s-check",
-              name: "后台首页",
-              subActiveIndex: "1"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "相册管理",
-              subActiveIndex: "2"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "商品列表",
-              subActiveIndex: "3"
+      navBar: {
+        active: 0,
+        list: [
+          {
+            name: "首页",
+            subMenu: {
+              activeIndex: 0,
+              subNav: [
+                {
+                  icon: "",
+                  name: "后台首页",
+                  path: ""
+                },
+                {
+                  icon: "",
+                  name: "相册管理",
+                  path: "/image/image"
+                },
+                {
+                  icon: "",
+                  name: "商品列表",
+                  path: ""
+                }
+              ]
             }
-          ]
-        },
-        {
-          activeIndex: "2",
-          name: "商品",
-          subNavBar: [
-            {
-              icon: "el-icon-s-check",
-              name: "商品列表",
-              subActiveIndex: "1"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "分类列表",
-              subActiveIndex: "2"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "商品规格",
-              subActiveIndex: "3"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "商品类型",
-              subActiveIndex: "4"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "商品评论",
-              subActiveIndex: "5"
+          },
+          {
+            name: "商品",
+            subMenu: {
+              activeIndex: 1,
+              subNav: [
+                {
+                  icon: "",
+                  name: "商品列表",
+                  path: ""
+                },
+                {
+                  icon: "",
+                  name: "分类列表",
+                  path: ""
+                },
+                {
+                  icon: "",
+                  name: "商品规格",
+                  path: ""
+                }
+              ]
             }
-          ]
-        },
-        {
-          activeIndex: "3",
-          name: "订单",
-          subNavBar: [
-            {
-              icon: "el-icon-s-check",
-              name: "订单管理",
-              subActiveIndex: "1"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "发票管理",
-              subActiveIndex: "2"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "售后服务",
-              subActiveIndex: "3"
-            }
-          ]
-        },
-        {
-          activeIndex: "4",
-          name: "会员",
-          subNavBar: [
-            {
-              icon: "el-icon-s-check",
-              name: "会员列表",
-              subActiveIndex: "1"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "会员等级",
-              subActiveIndex: "2"
-            }
-          ]
-        },
-        {
-          activeIndex: "5",
-          name: "设置",
-          subNavBar: [
-            {
-              icon: "el-icon-s-check",
-              name: "基础设置",
-              subActiveIndex: "1"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "物流设置",
-              subActiveIndex: "2"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "管理员设置",
-              subActiveIndex: "2"
-            },
-            {
-              icon: "el-icon-s-check",
-              name: "交易设置",
-              subActiveIndex: "2"
-            }
-          ]
-        }
-      ]
+          },
+          {
+            name: "订单"
+          },
+          {
+            name: "会员"
+          },
+          {
+            name: "设置"
+          }
+        ]
+      }
     };
   },
+  mixins: [filterData],
   computed: {
-    subNav() {
-      return this.navBar[this.activeIndex - 1].subNavBar;
+    subMenuNav() {
+      return this.navBar.list[this.navBar.active].subMenu;
     }
   },
   methods: {
     handleSelect(index) {
-      this.activeIndex = index;
+      console.log(index)
+      this.navBar.active = index;
+    },
+    handleOpen(index,data){
+      console.log("111")
+    },
+    handleClose(key,index){
+      console.log("222")
     }
   },
   components: {}
@@ -216,12 +165,14 @@ export default {
   justify-content: space-between;
   background-color: #545c64;
   color: #fff;
+  overflow: hidden;
 }
 
 .el-aside {
   width: 200px;
   background-color: #d3dce6;
   color: #333;
+  overflow: hidden;
 }
 .el-aside .el-menu {
   height: 100%;
@@ -230,21 +181,7 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: #333;
+  overflow: hidden;
 }
 </style>
- </div>
-</template>
 
-<script>
-export default {
-  name: "",
-  data() {
-    return {};
-  },
-  components: {}
-};
-</script>
-
-
-<style scoped>
-</style>

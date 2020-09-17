@@ -31,10 +31,17 @@ const user = {
     actions: {
         //登录
         Login({ commit }, form) {
-            login(form).then(response => {
-                const resp = response.data;
-                commit("SET_TOKEN",resp.data.token)
-                console.log(response)
+            return new Promise((resolve, reject) => {
+                login(form).then(response => {
+                    if(response.status == 200){
+                        const resp = response.data;
+                        commit("SET_TOKEN",resp.data.token);
+                        commit("SET_INFO",resp.data);
+                        resolve(response);
+                    }
+                }).catch(error=>{
+                    reject(error);
+                })
             })
         }
     }

@@ -37,7 +37,7 @@ const request = axios.create({
 request.interceptors.request.use(function (config) {
       //进行loading加载
       loading.open();
-
+      
       //获取vuex里面保存的token通过header发送给后台
       const token = getToken() ? getToken() : ""
 

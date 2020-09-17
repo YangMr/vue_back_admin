@@ -36,7 +36,15 @@ export default {
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate(valid => {
-       this.$store.dispatch("Login",this.form)
+        this.$store.dispatch("Login", this.form).then(response=>{
+          if(response.status == 200){
+            this.$message("登录成功")
+            //当登录成功跳转到首页
+            this.$router.push("/index")
+          }
+        }).catch(err=>{
+          this.$message("登录失败")
+        })
       });
     }
   },

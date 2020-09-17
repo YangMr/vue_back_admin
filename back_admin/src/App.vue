@@ -5,4 +5,6 @@
 </template>
 
 <style lang="scss">
+*{margin:0;padding:0;}
+ol,ul{list-style-type:none;}
 </style>
